@@ -8,9 +8,13 @@
 <meta name="viewport"
 content="width=device-width,initial-scale=1">
 
-<title>Tableau éducateur</title>
+<title>Tableau éducateur - Boîte Surprise Ménage</title>
 
 <style>
+
+*{
+box-sizing:border-box;
+}
 
 body{
 margin:0;
@@ -20,7 +24,7 @@ color:#263238;
 }
 
 main{
-max-width:900px;
+max-width:1000px;
 margin:auto;
 padding:25px 15px;
 }
@@ -34,30 +38,41 @@ box-shadow:0 8px 25px #0002;
 
 h1{
 text-align:center;
+margin-top:5px;
+}
+
+.subtitle{
+text-align:center;
+color:#607d8b;
+margin-bottom:25px;
 }
 
 #login{
-max-width:400px;
-margin:40px auto;
+max-width:420px;
+margin:50px auto;
 text-align:center;
 }
 
-input{
+.pin-input{
 width:100%;
-padding:15px;
-font-size:20px;
-border:2px solid #ddd;
+padding:16px;
+font-size:24px;
+border:2px solid #cfd8dc;
 border-radius:12px;
 text-align:center;
-box-sizing:border-box;
+letter-spacing:6px;
+outline:none;
+}
+
+.pin-input:focus{
+border-color:#64b5f6;
 }
 
 button{
-margin-top:15px;
-padding:15px 25px;
 border:0;
 border-radius:12px;
-font-size:18px;
+padding:14px 22px;
+font-size:17px;
 font-weight:bold;
 cursor:pointer;
 }
@@ -65,26 +80,24 @@ cursor:pointer;
 #loginBtn{
 background:#1976d2;
 color:white;
+width:100%;
+margin-top:15px;
+}
+
+#loginBtn:hover{
+opacity:.9;
 }
 
 #dashboard{
 display:none;
 }
 
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:25px;
-}
-
-th,td{
-padding:14px 10px;
-border-bottom:1px solid #ddd;
-text-align:left;
-}
-
-th{
-background:#eceff1;
+.actions{
+display:flex;
+justify-content:center;
+gap:12px;
+flex-wrap:wrap;
+margin:20px 0;
 }
 
 .refresh{
@@ -92,27 +105,183 @@ background:#43a047;
 color:white;
 }
 
-.empty{
-text-align:center;
-padding:30px;
-font-size:20px;
-color:#607d8b;
+.print{
+background:#757575;
+color:white;
 }
 
-.error{
+.logout{
+background:#e53935;
+color:white;
+}
+
+#date{
+text-align:center;
+font-weight:bold;
+font-size:18px;
+}
+
+#error{
 color:#c62828;
 font-weight:bold;
 margin-top:15px;
 }
 
-@media(max-width:650px){
+.empty{
+text-align:center;
+padding:35px 10px;
+font-size:20px;
+color:#607d8b;
+}
+
+.table-container{
+overflow-x:auto;
+}
 
 table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+th,
+td{
+padding:14px 12px;
+border-bottom:1px solid #ddd;
+text-align:left;
+}
+
+th{
+background:#eceff1;
+font-size:15px;
+}
+
+td{
+font-size:16px;
+}
+
+.summary{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+margin:20px 0;
+}
+
+.summary-box{
+background:#f5f5f5;
+border-radius:14px;
+padding:15px 25px;
+text-align:center;
+}
+
+.summary-number{
+font-size:28px;
+font-weight:bold;
+}
+
+.summary-label{
+color:#607d8b;
 font-size:14px;
 }
 
-th,td{
-padding:10px 5px;
+.footer{
+text-align:center;
+margin-top:25px;
+color:#78909c;
+font-size:13px;
+}
+
+@media(max-width:650px){
+
+main{
+padding:12px 8px;
+}
+
+.card{
+padding:18px 12px;
+}
+
+th,
+td{
+padding:10px 7px;
+font-size:13px;
+}
+
+}
+
+/* =========================================
+   IMPRESSION
+   ========================================= */
+
+@media print{
+
+@page{
+margin:15mm;
+}
+
+body{
+background:white;
+}
+
+main{
+max-width:none;
+padding:0;
+}
+
+.card{
+box-shadow:none;
+border-radius:0;
+padding:0;
+}
+
+#login{
+display:none !important;
+}
+
+#dashboard{
+display:block !important;
+}
+
+.actions{
+display:none !important;
+}
+
+.footer{
+display:none;
+}
+
+h1{
+font-size:26px;
+margin-bottom:5px;
+}
+
+#date{
+font-size:16px;
+margin-bottom:20px;
+}
+
+table{
+font-size:13px;
+}
+
+th,
+td{
+border:1px solid #999;
+padding:8px;
+}
+
+th{
+background:#eee !important;
+}
+
+.summary{
+margin:10px 0 20px;
+}
+
+.summary-box{
+border:1px solid #ccc;
+padding:8px 15px;
 }
 
 }
@@ -124,64 +293,223 @@ padding:10px 5px;
 
 <body>
 
+
 <main>
 
-<div class="card" id="login">
 
-<h1>🔐 Éducateur</h1>
+<!-- ========================================
+     CONNEXION ÉDUCATEUR
+========================================= -->
 
-<p>
-Entre le code PIN pour accéder
-aux attributions.
+<div
+class="card"
+id="login">
+
+<h1>🔐 Accès éducateur</h1>
+
+<p class="subtitle">
+
+Tableau des attributions des tâches
+
 </p>
 
+
 <input
+
 id="pin"
+
+class="pin-input"
+
 type="password"
+
 inputmode="numeric"
+
 maxlength="4"
-placeholder="Code PIN"
+
+placeholder="••••"
+
+autocomplete="off"
+
 >
 
+
 <button
+
 id="loginBtn"
+
 onclick="login()">
 
 ACCÉDER AU TABLEAU
 
 </button>
 
+
 <div
-id="error"
-class="error">
+id="error">
 </div>
 
 </div>
 
 
-<div class="card" id="dashboard">
 
-<h1>📋 Attribution des tâches</h1>
+<!-- ========================================
+     TABLEAU
+========================================= -->
 
-<p id="date"></p>
+<div
+class="card"
+id="dashboard">
+
+
+<h1>
+📋 Attribution des tâches
+</h1>
+
+
+<div
+id="date">
+</div>
+
+
+<div
+class="actions">
+
 
 <button
+
 class="refresh"
+
 onclick="loadAssignments()">
 
 🔄 ACTUALISER
 
 </button>
 
-<div id="content"></div>
+
+<button
+
+class="print"
+
+onclick="window.print()">
+
+📄 IMPRIMER LA FEUILLE
+
+</button>
+
+
+<button
+
+class="logout"
+
+onclick="logout()">
+
+🚪 QUITTER
+
+</button>
+
+
+</div>
+
+
+
+<!-- RÉSUMÉ -->
+
+<div
+class="summary">
+
+
+<div
+class="summary-box">
+
+<div
+id="totalNumber"
+class="summary-number">
+
+0
+
+</div>
+
+<div
+class="summary-label">
+
+Tâches attribuées
+
+</div>
+
+</div>
+
+
+<div
+class="summary-box">
+
+<div
+id="girlsNumber"
+class="summary-number">
+
+0
+
+</div>
+
+<div
+class="summary-label">
+
+Filles
+
+</div>
+
+</div>
+
+
+<div
+class="summary-box">
+
+<div
+id="boysNumber"
+class="summary-number">
+
+0
+
+</div>
+
+<div
+class="summary-label">
+
+Garçons
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<div
+id="content">
+</div>
+
+
+<div
+class="footer">
+
+🎁 Boîte Surprise Ménage
+
+</div>
+
 
 </div>
 
 </main>
 
 
+
 <script>
 
+
+/* =========================================
+   ADRESSE GOOGLE APPS SCRIPT
+========================================= */
 
 const API_URL =
 "https://script.google.com/macros/s/AKfycbzLRE0n1-kRWC15vMrJbJ02kjufO0vS7c0mDe4qoOpc4mGmHTMSY1idYGWSZlHYheZD/exec";
@@ -190,19 +518,25 @@ const API_URL =
 let pin = "";
 
 
+
+/* =========================================
+   CONNEXION
+========================================= */
+
 function login(){
 
 pin =
-document.getElementById(
-"pin"
-).value.trim();
+document
+.getElementById("pin")
+.value
+.trim();
 
 
 if(!pin){
 
-document.getElementById(
-"error"
-).textContent =
+document
+.getElementById("error")
+.textContent =
 "Entre le code PIN.";
 
 return;
@@ -210,20 +544,34 @@ return;
 }
 
 
+document
+.getElementById("error")
+.textContent =
+"";
+
+
 loadAssignments();
 
 }
 
 
+
+/* =========================================
+   CHARGEMENT DES ATTRIBUTIONS
+========================================= */
+
 async function loadAssignments(){
 
 try{
 
+
 const response =
 await fetch(
+
 API_URL +
 "?action=assignments&pin=" +
 encodeURIComponent(pin)
+
 );
 
 
@@ -231,11 +579,14 @@ const data =
 await response.json();
 
 
+
+/* PIN INCORRECT */
+
 if(!data.ok){
 
-document.getElementById(
-"error"
-).textContent =
+document
+.getElementById("error")
+.textContent =
 data.message ||
 "Code PIN incorrect.";
 
@@ -244,35 +595,46 @@ return;
 }
 
 
-document.getElementById(
-"login"
-).style.display =
+
+/* AFFICHER TABLEAU */
+
+document
+.getElementById("login")
+.style.display =
 "none";
 
 
-document.getElementById(
-"dashboard"
-).style.display =
+document
+.getElementById("dashboard")
+.style.display =
 "block";
 
 
-document.getElementById(
-"date"
-).textContent =
-"📅 " + data.date;
 
+/* DATE */
+
+document
+.getElementById("date")
+.textContent =
+"📅 " +
+data.date;
+
+
+
+/* AFFICHER */
 
 displayAssignments(
 data.assignments || []
 );
 
+
 }
 
 catch(error){
 
-document.getElementById(
-"error"
-).textContent =
+document
+.getElementById("error")
+textContent =
 "Impossible de contacter le serveur.";
 
 }
@@ -280,21 +642,77 @@ document.getElementById(
 }
 
 
+
+/* =========================================
+   AFFICHAGE
+========================================= */
+
 function displayAssignments(assignments){
 
 const content =
-document.getElementById(
-"content"
-);
+document
+.getElementById("content");
 
+
+/* COMPTEURS */
+
+const total =
+assignments.length;
+
+
+const girls =
+assignments.filter(
+item =>
+String(item.group)
+.toLowerCase()
+.includes("fille")
+).length;
+
+
+const boys =
+assignments.filter(
+item =>
+String(item.group)
+.toLowerCase()
+.includes("garçon")
+||
+String(item.group)
+.toLowerCase()
+.includes("garcon")
+).length;
+
+
+document
+.getElementById("totalNumber")
+.textContent =
+total;
+
+
+document
+.getElementById("girlsNumber")
+.textContent =
+girls;
+
+
+document
+.getElementById("boysNumber")
+.textContent =
+boys;
+
+
+
+/* AUCUNE TÂCHE */
 
 if(!assignments.length){
 
-content.innerHTML =
-`
+content.innerHTML = `
+
 <div class="empty">
+
 🎁 Aucune tâche attribuée pour aujourd'hui.
+
 </div>
+
 `;
 
 return;
@@ -302,7 +720,12 @@ return;
 }
 
 
+
+/* TABLEAU */
+
 let html = `
+
+<div class="table-container">
 
 <table>
 
@@ -323,7 +746,9 @@ let html = `
 </thead>
 
 <tbody>
+
 `;
+
 
 
 assignments.forEach(
@@ -333,20 +758,30 @@ html += `
 
 <tr>
 
-<td><b>
+<td>
+
+<b>
 ${escapeHtml(item.name)}
-</b></td>
+</b>
+
+</td>
 
 <td>
+
 ${escapeHtml(item.group)}
+
 </td>
 
 <td>
+
 ${escapeHtml(item.task)}
+
 </td>
 
 <td>
+
 ${escapeHtml(item.date)}
+
 </td>
 
 </tr>
@@ -356,12 +791,17 @@ ${escapeHtml(item.date)}
 });
 
 
+
 html += `
 
 </tbody>
 
 </table>
+
+</div>
+
 `;
+
 
 
 content.innerHTML =
@@ -369,6 +809,11 @@ html;
 
 }
 
+
+
+/* =========================================
+   SÉCURITÉ AFFICHAGE
+========================================= */
 
 function escapeHtml(text){
 
@@ -401,7 +846,38 @@ return String(text)
 
 }
 
+
+
+/* =========================================
+   DÉCONNEXION
+========================================= */
+
+function logout(){
+
+pin = "";
+
+document
+.getElementById("pin")
+.value = "";
+
+document
+.getElementById("error")
+.textContent = "";
+
+document
+.getElementById("dashboard")
+.style.display =
+"none";
+
+document
+.getElementById("login")
+.style.display =
+"block";
+
+}
+
 </script>
+
 
 </body>
 
