@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🎁 Boîtes Surprise — Foyer</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#eef7ff,#fff4e8);min-height:100vh;color:#263238}
+main{max-width:900px;margin:auto;padding:24px 16px;text-align:center}.card{background:#fffffff0;border-radius:24px;padding:25px;box-shadow:0 10px 35px #0002}
+h1{font-size:clamp(30px,7vw,50px);margin:5px}.sub{color:#607d8b;font-size:18px}
+#closed,#full,#result{padding:22px;border-radius:18px;margin:22px 0;font-size:20px}
+#closed,#full{background:#fff3cd}#result{background:#e8f5e9;font-size:25px;font-weight:bold}
+#game{display:none}.boxes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:25px auto;max-width:700px}
+.box{border:0;border-radius:22px;background:white;min-height:175px;cursor:pointer;box-shadow:0 8px 20px #0002;transition:.2s}.box:hover{transform:translateY(-5px)}
+.box:disabled{opacity:.35;cursor:not-allowed;transform:none}.gift{font-size:75px;display:block}.num{font-weight:bold;color:#607d8b}
+button{font:inherit}.small{font-size:13px;color:#78909c}
+@media(max-width:650px){.boxes{grid-template-columns:repeat(2,1fr)}.box{min-height:145px}.gift{font-size:60px}}
+</style>
+</head>
+<body><main><div class="card">
+<h1>🎁 Boîtes Surprise</h1><p class="sub">Choisis une boîte pour découvrir ta tâche ménagère.</p>
+<div id="closed">🔒 <b>Les boîtes sont fermées.</b><br><br>Les tirages sont disponibles uniquement le <b>mercredi</b> et le <b>dimanche</b>.</div>
+<div id="game"><div id="boxes" class="boxes"></div><div id="result" style="display:none"></div><div id="full" style="display:none">🎉 Toutes les tâches ont été attribuées pour cette journée.</div><p class="small">Les attributions sont partagées entre tous les téléphones.</p></div>
+</div></main>
+<script>
+const tasks=["🛁 SALLE DE BAIN","🌳 JARDIN + POUBELLES","🍽️ SALLE À MANGER","🧺 ESCALIER ET BUANDERIE","🛋️ SALON ET HALL","🚗 VÉHICULE"];
+const API_URL="https://script.google.com/macros/s/AKfycbzLRE0n1-kRWC15vMrJbJ02kjufO0vS7c0mDe4qoOpc4mGmHTMSY1idYGWSZlHYheZD/exec";
+function allowed(){let d=new Date().getDay();return d===0||d===3}
+function showClosed(){document.getElementById("closed").style.display="block";document.getElementById("game").style.display="none"}
+function render(used){
+ document.getElementById("game").style.display="block";document.getElementById("closed").style.display="none";
+ let box=document.getElementById("boxes");box.innerHTML="";
+ tasks.forEach((t,i)=>{let b=document.createElement("button");b.className="box";b.disabled=used.includes(i);b.innerHTML=`<span class="gift">🎁</span><span class="num">Boîte ${i+1}</span>`;b.onclick=()=>pick(i);box.appendChild(b)});
+ document.getElementById("full").style.display=used.length===6?"block":"none";
+}
+async function load(){if(!allowed())return showClosed();try{let r=await fetch(API_URL+"?action=status");let j=await r.json();render(j.used||[])}catch(e){document.getElementById("boxes").innerHTML="⚠️ Impossible de contacter le serveur.";}}
+async function pick(i){
+ try{let r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"pick",index:i})});let j=await r.json();
+ if(j.ok){document.getElementById("result").style.display="block";document.getElementById("result").innerHTML="🎉 Ta tâche est :<br><br>"+tasks[j.index];render(j.used)}
+ else {alert(j.message||"Cette boîte vient d'être prise.");render(j.used||[])}
+ }catch(e){alert("Une erreur est survenue. Réessaie.");}
+}
+load();
+</script></body></html>
