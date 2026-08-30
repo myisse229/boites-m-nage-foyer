@@ -7,175 +7,211 @@
 <title>Boîte Surprise Ménage</title>
 
 <style>
-* {
-  box-sizing: border-box;
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:linear-gradient(135deg,#eef7ff,#fff4e8);
+min-height:100vh;
+color:#263238;
 }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg,#eef7ff,#fff4e8);
-  min-height: 100vh;
-  color: #263238;
+main{
+max-width:900px;
+margin:auto;
+padding:24px 16px;
+text-align:center;
 }
 
-main {
-  max-width: 900px;
-  margin: auto;
-  padding: 24px 16px;
-  text-align: center;
+.card{
+background:#ffffffee;
+border-radius:24px;
+padding:25px;
+box-shadow:0 10px 35px #0002;
 }
 
-.card {
-  background: #ffffffee;
-  border-radius: 24px;
-  padding: 25px;
-  box-shadow: 0 10px 35px #0002;
+h1{
+font-size:clamp(30px,7vw,50px);
+margin:5px;
 }
 
-h1 {
-  font-size: clamp(30px,7vw,50px);
-  margin: 5px;
+.sub{
+color:#607d8b;
+font-size:18px;
 }
 
-.sub {
-  color: #607d8b;
-  font-size: 18px;
+#closed,#full,#result{
+padding:22px;
+border-radius:18px;
+margin:22px 0;
+font-size:20px;
 }
 
-#closed,
-#full,
-#result {
-  padding: 22px;
-  border-radius: 18px;
-  margin: 22px 0;
-  font-size: 20px;
+#closed,#full{
+background:#fff3cd;
 }
 
-#closed,
-#full {
-  background: #fff3cd;
+#result{
+background:#e8f5e9;
+font-size:25px;
+font-weight:bold;
 }
 
-#result {
-  background: #e8f5e9;
-  font-size: 25px;
-  font-weight: bold;
+#game{
+display:none;
 }
 
-#game {
-  display: none;
+.groups{
+display:flex;
+justify-content:center;
+gap:15px;
+margin:25px auto;
+flex-wrap:wrap;
 }
 
-.groups {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin: 25px auto;
-  flex-wrap: wrap;
+.group{
+border:0;
+border-radius:18px;
+padding:16px 30px;
+background:white;
+box-shadow:0 6px 16px #0002;
+cursor:pointer;
+font-size:20px;
+font-weight:bold;
 }
 
-.group {
-  border: 0;
-  border-radius: 18px;
-  padding: 16px 30px;
-  background: white;
-  box-shadow: 0 6px 16px #0002;
-  cursor: pointer;
-  font-size: 20px;
-  font-weight: bold;
+.group.active{
+outline:4px solid #90caf9;
 }
 
-.group.active {
-  outline: 4px solid #90caf9;
+#nameBox{
+display:none;
+margin:25px auto;
+max-width:450px;
 }
 
-#openBtn {
-  display: none;
-  margin: 18px auto;
-  padding: 18px 28px;
-  border: 0;
-  border-radius: 18px;
-  background: #ffca28;
-  color: #263238;
-  font-size: 22px;
-  font-weight: bold;
-  box-shadow: 0 7px 16px #0003;
-  cursor: pointer;
+#nameBox label{
+display:block;
+font-size:20px;
+font-weight:bold;
+margin-bottom:10px;
 }
 
-.boxes {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 18px;
-  margin: 25px auto;
-  max-width: 700px;
+#name{
+width:100%;
+padding:16px;
+font-size:20px;
+border:2px solid #cfd8dc;
+border-radius:15px;
+text-align:center;
+outline:none;
 }
 
-.box {
-  border: 0;
-  border-radius: 22px;
-  background: white;
-  min-height: 175px;
-  cursor: pointer;
-  box-shadow: 0 8px 20px #0002;
+#name:focus{
+border-color:#64b5f6;
 }
 
-.box:disabled {
-  opacity: .35;
-  cursor: not-allowed;
+#openBtn{
+display:none;
+margin:18px auto;
+padding:18px 28px;
+border:0;
+border-radius:18px;
+background:#ffca28;
+color:#263238;
+font-size:22px;
+font-weight:bold;
+box-shadow:0 7px 16px #0003;
+cursor:pointer;
 }
 
-.gift {
-  font-size: 75px;
-  display: block;
+#openBtn:disabled{
+opacity:.5;
+cursor:not-allowed;
 }
 
-.num {
-  font-weight: bold;
-  color: #607d8b;
+.boxes{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:18px;
+margin:25px auto;
+max-width:700px;
 }
 
-.small {
-  font-size: 13px;
-  color: #78909c;
+.box{
+border:0;
+border-radius:22px;
+background:white;
+min-height:175px;
+cursor:pointer;
+box-shadow:0 8px 20px #0002;
 }
 
-@media(max-width:650px) {
-  .boxes {
-    grid-template-columns: repeat(2,1fr);
-  }
-
-  .box {
-    min-height: 145px;
-  }
-
-  .gift {
-    font-size: 60px;
-  }
+.box:disabled{
+opacity:.35;
+cursor:not-allowed;
 }
+
+.gift{
+font-size:75px;
+display:block;
+}
+
+.num{
+font-weight:bold;
+color:#607d8b;
+}
+
+.small{
+font-size:13px;
+color:#78909c;
+}
+
+@media(max-width:650px){
+
+.boxes{
+grid-template-columns:repeat(2,1fr);
+}
+
+.box{
+min-height:145px;
+}
+
+.gift{
+font-size:60px;
+}
+
+}
+
 </style>
 </head>
 
 <body>
 
 <main>
+
 <div class="card">
 
 <h1>🎁 Boîte Surprise Ménage</h1>
 
 <p class="sub">
-Choisis ton groupe puis ouvre ta boîte.
+Choisis ton groupe, écris ton prénom et ouvre ta boîte.
 </p>
 
 <div id="closed">
+
 🔒 <b>Les boîtes sont fermées.</b>
+
 <br><br>
+
 Les tirages sont disponibles uniquement le
 <b>mercredi</b> et le <b>dimanche</b>.
+
 </div>
 
+
 <div id="game">
+
 
 <div class="groups">
 
@@ -183,332 +219,466 @@ Les tirages sont disponibles uniquement le
 class="group"
 id="girlsBtn"
 onclick="selectGroup('filles')">
+
 👧 Filles
+
 </button>
+
 
 <button
 class="group"
 id="boysBtn"
 onclick="selectGroup('garcons')">
+
 👦 Garçons
+
 </button>
 
 </div>
 
+
 <div id="groupInfo" class="small">
+
 Sélectionne ton groupe.
+
 </div>
+
+
+<div id="nameBox">
+
+<label for="name">
+
+👋 Écris ton prénom
+
+</label>
+
+
+<input
+id="name"
+type="text"
+maxlength="30"
+placeholder="Ton prénom"
+autocomplete="off"
+>
+
+
+</div>
+
 
 <button
 id="openBtn"
 onclick="openRandomBox()">
+
 🎁 OUVRIR MA BOÎTE
+
 </button>
+
 
 <div id="boxes" class="boxes"></div>
 
-<div id="result" style="display:none"></div>
 
-<div id="full" style="display:none"></div>
+<div
+id="result"
+style="display:none">
+</div>
+
+
+<div
+id="full"
+style="display:none">
+</div>
+
 
 <p class="small">
-Les tirages des filles et des garçons sont indépendants.
+
+Une seule tâche par jeune et par jour.
+
 </p>
 
 </div>
 
 </div>
+
 </main>
+
 
 <script>
 
+
 const TASKS = {
 
-  filles: [
-    "🛁 SALLE DE BAIN DES FILLES",
-    "🛋️ SALON + HALL"
-  ],
+filles:[
+"🛁 SALLE DE BAIN DES FILLES",
+"🛋️ SALON + HALL"
+],
 
-  garcons: [
-    "🛁 SALLE DE BAIN",
-    "🌳 JARDIN + POUBELLES",
-    "🍽️ SALLE À MANGER",
-    "🧺 ESCALIER ET BUANDERIE",
-    "🛋️ SALON ET HALL",
-    "🚗 VÉHICULE"
-  ]
+garcons:[
+"🛁 SALLE DE BAIN",
+"🌳 JARDIN + POUBELLES",
+"🍽️ SALLE À MANGER",
+"🧺 ESCALIER ET BUANDERIE",
+"🛋️ SALON ET HALL",
+"🚗 VÉHICULE"
+]
 
 };
+
 
 const API_URL =
 "https://script.google.com/macros/s/AKfycbzLRE0n1-kRWC15vMrJbJ02kjufO0vS7c0mDe4qoOpc4mGmHTMSY1idYGWSZlHYheZD/exec";
 
+
 let group = null;
+
 let used = [];
 
 
-function allowed() {
+function allowed(){
 
-  const day = new Date().getDay();
+const day =
+new Date().getDay();
 
-  return day === 0 || day === 3;
-
-}
-
-
-function selectGroup(g) {
-
-  group = g;
-
-  document
-    .querySelectorAll(".group")
-    .forEach(x => x.classList.remove("active"));
-
-  document
-    .getElementById(
-      g === "filles"
-      ? "girlsBtn"
-      : "boysBtn"
-    )
-    .classList.add("active");
-
-
-  document.getElementById("groupInfo").textContent =
-    g === "filles"
-    ? "👧 Groupe filles — 2 tâches dédiées"
-    : "👦 Groupe garçons — 6 tâches";
-
-
-  document.getElementById("result").style.display = "none";
-
-  document.getElementById("openBtn").style.display = "block";
-
-  loadStatus();
+return day === 0 || day === 3;
 
 }
 
 
-async function loadStatus() {
+function selectGroup(g){
 
-  try {
+group = g;
 
-    const response =
-      await fetch(
-        API_URL +
-        "?action=status&group=" +
-        group
-      );
-
-    const data =
-      await response.json();
-
-    used = data.used || [];
-
-    render();
-
-  }
-
-  catch(error) {
-
-    document.getElementById("boxes").innerHTML =
-      "⚠️ Impossible de contacter le serveur.";
-
-  }
-
-}
+document
+.querySelectorAll(".group")
+.forEach(x =>
+x.classList.remove("active")
+);
 
 
-function render() {
-
-  const tasks = TASKS[group];
-
-  const boxes =
-    document.getElementById("boxes");
-
-  boxes.innerHTML = "";
-
-
-  tasks.forEach((task,index) => {
-
-    const button =
-      document.createElement("button");
-
-    button.className = "box";
-
-    button.disabled =
-      used.includes(index);
-
-    button.innerHTML =
-      `<span class="gift">🎁</span>
-       <span class="num">
-       Boîte ${index + 1}
-       </span>`;
+document
+.getElementById(
+g === "filles"
+? "girlsBtn"
+: "boysBtn"
+)
+.classList.add("active");
 
 
-    button.onclick =
-      () => pick(index);
+document.getElementById(
+"groupInfo"
+).textContent =
+
+g === "filles"
+
+? "👧 Groupe filles — 2 tâches dédiées"
+
+: "👦 Groupe garçons — 6 tâches";
 
 
-    boxes.appendChild(button);
-
-  });
-
-
-  const full =
-    document.getElementById("full");
+document.getElementById(
+"nameBox"
+).style.display="block";
 
 
-  if (used.length === tasks.length) {
+document.getElementById(
+"openBtn"
+).style.display="block";
 
-    full.style.display = "block";
 
-    full.textContent =
-      "🎉 Toutes les tâches de ce groupe ont été attribuées pour cette journée.";
+document.getElementById(
+"result"
+).style.display="none";
 
-  }
 
-  else {
+document.getElementById(
+"name"
+).value="";
 
-    full.style.display = "none";
 
-  }
+loadStatus();
 
 }
 
 
-async function openRandomBox() {
+async function loadStatus(){
 
-  if (!group) {
+try{
 
-    alert("Choisis d'abord ton groupe.");
+const response =
+await fetch(
+API_URL +
+"?action=status&group=" +
+group
+);
 
-    return;
+const data =
+await response.json();
 
-  }
+used =
+data.used || [];
 
+render();
 
-  const available =
-    TASKS[group]
-      .map((_,index) => index)
-      .filter(index =>
-        !used.includes(index)
-      );
+}
 
+catch(error){
 
-  if (!available.length) {
+document.getElementById(
+"boxes"
+).innerHTML =
+"⚠️ Impossible de contacter le serveur.";
 
-    return;
-
-  }
-
-
-  const index =
-    available[
-      Math.floor(
-        Math.random() *
-        available.length
-      )
-    ];
-
-
-  document.getElementById("result").style.display =
-    "block";
-
-  document.getElementById("result").innerHTML =
-    "🎁 Ta boîte s’ouvre…";
-
-
-  setTimeout(
-    () => pick(index),
-    650
-  );
+}
 
 }
 
 
-async function pick(index) {
+function render(){
 
-  try {
+const tasks =
+TASKS[group];
 
-    const response =
-      await fetch(
-        API_URL,
-        {
-          method: "POST",
+const boxes =
+document.getElementById(
+"boxes"
+);
 
-          headers: {
-            "Content-Type":
-            "text/plain;charset=utf-8"
-          },
-
-          body: JSON.stringify({
-            action: "pick",
-            index: index,
-            group: group
-          })
-        }
-      );
+boxes.innerHTML="";
 
 
-    const data =
-      await response.json();
+tasks.forEach(
+(task,index)=>{
+
+const button =
+document.createElement(
+"button"
+);
+
+button.className="box";
+
+button.disabled =
+used.includes(index);
+
+button.innerHTML =
+`<span class="gift">🎁</span>
+<span class="num">
+Boîte ${index+1}
+</span>`;
 
 
-    if (data.ok) {
-
-      used =
-        data.used || [];
+button.onclick =
+()=>pick(index);
 
 
-      document.getElementById("result").innerHTML =
-        "🎉 Ta tâche est :<br><br>" +
-        TASKS[group][data.index];
+boxes.appendChild(button);
+
+});
 
 
-      render();
-
-    }
-
-    else {
-
-      used =
-        data.used || [];
+const full =
+document.getElementById(
+"full"
+);
 
 
-      alert(
-        data.message ||
-        "Cette boîte vient d'être prise."
-      );
+if(used.length === tasks.length){
 
+full.style.display="block";
 
-      render();
+full.textContent =
+"🎉 Toutes les tâches de ce groupe ont été attribuées pour cette journée.";
 
-    }
+}
 
-  }
+else{
 
-  catch(error) {
+full.style.display="none";
 
-    alert(
-      "Une erreur est survenue. Réessaie."
-    );
-
-  }
+}
 
 }
 
 
-if (allowed()) {
+async function openRandomBox(){
 
-  document.getElementById("game")
-    .style.display = "block";
+const name =
+document.getElementById(
+"name"
+).value.trim();
+
+
+if(!name){
+
+alert(
+"Merci d'écrire ton prénom."
+);
+
+document
+.getElementById("name")
+.focus();
+
+return;
 
 }
 
-else {
 
-  document.getElementById("closed")
-    .style.display = "block";
+if(!group){
+
+alert(
+"Choisis d'abord ton groupe."
+);
+
+return;
+
+}
+
+
+const available =
+TASKS[group]
+.map((_,index)=>index)
+.filter(index =>
+!used.includes(index)
+);
+
+
+if(!available.length){
+
+return;
+
+}
+
+
+const index =
+available[
+Math.floor(
+Math.random() *
+available.length
+)
+];
+
+
+document.getElementById(
+"result"
+).style.display="block";
+
+
+document.getElementById(
+"result"
+).innerHTML =
+"🎁 Ta boîte s’ouvre…";
+
+
+setTimeout(
+()=>pick(index),
+650
+);
+
+}
+
+
+async function pick(index){
+
+const name =
+document.getElementById(
+"name"
+).value.trim();
+
+
+if(!name){
+
+alert(
+"Merci d'écrire ton prénom."
+);
+
+return;
+
+}
+
+
+try{
+
+const response =
+await fetch(
+API_URL,
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":
+"text/plain;charset=utf-8"
+},
+
+body:JSON.stringify({
+
+action:"pick",
+
+index:index,
+
+group:group,
+
+name:name
+
+})
+
+});
+
+
+const data =
+await response.json();
+
+
+if(data.ok){
+
+used =
+data.used || [];
+
+
+document.getElementById(
+"result"
+).innerHTML =
+
+"🎉 "+name+
+", ta tâche est :<br><br>"+
+TASKS[group][data.index];
+
+
+render();
+
+}
+
+else{
+
+used =
+data.used || [];
+
+
+alert(
+data.message ||
+"Cette boîte vient d'être prise."
+);
+
+render();
+
+}
+
+}
+
+catch(error){
+
+alert(
+"Une erreur est survenue. Réessaie."
+);
+
+}
+
+}
+
+
+if(allowed()){
+
+document.getElementById(
+"game"
+).style.display="block";
 
 }
 
