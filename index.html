@@ -19,7 +19,9 @@ button{font:inherit}.small{font-size:13px;color:#78909c}
 <body><main><div class="card">
 <h1>🎁 Boîtes Surprise</h1><p class="sub">Choisis une boîte pour découvrir ta tâche ménagère.</p>
 <div id="closed">🔒 <b>Les boîtes sont fermées.</b><br><br>Les tirages sont disponibles uniquement le <b>mercredi</b> et le <b>dimanche</b>.</div>
-<div id="game"><div id="boxes" class="boxes"></div><div id="result" style="display:none"></div><div id="full" style="display:none">🎉 Toutes les tâches ont été attribuées pour cette journée.</div><p class="small">Les attributions sont partagées entre tous les téléphones.</p></div>
+<div id="game">
+<button id="openBtn" onclick="openRandomBox()" style="display:block;margin:18px auto 8px;padding:18px 28px;border:0;border-radius:18px;background:#ffca28;color:#263238;font-size:22px;font-weight:bold;box-shadow:0 7px 16px #0003;cursor:pointer">🎁 OUVRIR MA BOÎTE</button>
+<div id="boxes" class="boxes"></div><div id="result" style="display:none"></div><div id="full" style="display:none">🎉 Toutes les tâches ont été attribuées pour cette journée.</div><p class="small">Les attributions sont partagées entre tous les téléphones.</p></div>
 </div></main>
 <script>
 const tasks=["🛁 SALLE DE BAIN","🌳 JARDIN + POUBELLES","🍽️ SALLE À MANGER","🧺 ESCALIER ET BUANDERIE","🛋️ SALON ET HALL","🚗 VÉHICULE"];
@@ -33,6 +35,17 @@ function render(used){
  document.getElementById("full").style.display=used.length===6?"block":"none";
 }
 async function load(){if(!allowed())return showClosed();try{let r=await fetch(API_URL+"?action=status");let j=await r.json();render(j.used||[])}catch(e){document.getElementById("boxes").innerHTML="⚠️ Impossible de contacter le serveur.";}}
+async function openRandomBox(){
+ try{
+   let r=await fetch(API_URL+"?action=status"); let j=await r.json();
+   let used=j.used||[], available=tasks.map((_,i)=>i).filter(i=>!used.includes(i));
+   if(!available.length){document.getElementById("full").style.display="block";return;}
+   let i=available[Math.floor(Math.random()*available.length)];
+   document.getElementById("result").style.display="block";
+   document.getElementById("result").innerHTML="🎁 Ta boîte est en train de s’ouvrir…";
+   setTimeout(()=>pick(i),650);
+ }catch(e){alert("Une erreur est survenue. Réessaie.");}
+}
 async function pick(i){
  try{let r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"pick",index:i})});let j=await r.json();
  if(j.ok){document.getElementById("result").style.display="block";document.getElementById("result").innerHTML="🎉 Ta tâche est :<br><br>"+tasks[j.index];render(j.used)}
